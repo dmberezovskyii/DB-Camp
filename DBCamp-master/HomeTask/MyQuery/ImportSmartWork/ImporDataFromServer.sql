@@ -49,7 +49,7 @@ WHERE NOT EXISTS (SELECT * FROM [SmartIms].[FilialDeviceJur] AS FD WHERE [Guid] 
 
 BEGIN TRY
 	EXEC(@Query)
-	PRINT @FilialId
+	PRINT @FId
 	
 END TRY
 
