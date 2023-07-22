@@ -1,20 +1,11 @@
-USE [PRDIR_Equipment]
+
 GO
 
-/****** Object:  StoredProcedure [SmartIms].[sp_UpdateDeviceDataJur]    Script Date: 09/14/2015 11:08:28 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
-
-
-
-
-
 
 
 
@@ -59,7 +50,7 @@ EXEC [SmartImsServer].[ADDAXDB_APPSERVER].[dbo].sp_GetEquipmentDataJuridical @ty
 INSERT INTO [SmartIms].[DeviceJur]
 SELECT * FROM [#Device] AS D WHERE NOT EXISTS (SELECT * FROM [SmartIms].[DeviceJur] AS D2 WHERE [D].[Id] = [D2].[Id])
 
-PRINT 'лічильників імпортовано'
+PRINT 'Г«ВіГ·ГЁГ«ГјГ­ГЁГЄВіГў ВіГ¬ГЇГ®Г°ГІГ®ГўГ Г­Г®'
 
 
 
@@ -89,7 +80,7 @@ CREATE TABLE [#DeviceData](
 ) 
 
 
--- імпорт даних про лічильники смарт на основі класифікатора з філій
+-- ВіГ¬ГЇГ®Г°ГІ Г¤Г Г­ГЁГµ ГЇГ°Г® Г«ВіГ·ГЁГ«ГјГ­ГЁГЄГЁ Г±Г¬Г Г°ГІ Г­Г  Г®Г±Г­Г®ГўВі ГЄГ«Г Г±ГЁГґВіГЄГ ГІГ®Г°Г  Г§ ГґВіГ«ВіГ©
 DECLARE   @CounterId INT, @date SMALLDATETIME
 SET @date= CONVERT(SMALLDATETIME,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), -1))
 declare SmartCounter cursor scroll for 
@@ -147,12 +138,12 @@ SELECT *
 FROM [#DeviceData] AS DD
 
 
---тарифікація імпортованих показів
+--ГІГ Г°ГЁГґВіГЄГ Г¶ВіГї ВіГ¬ГЇГ®Г°ГІГ®ГўГ Г­ГЁГµ ГЇГ®ГЄГ Г§ВіГў
 
 UPDATE ddj  set ddj.tariffid=1
  FROM SmartIms.DeviceDataJur AS DDJ
 WHERE DeviceId IN (SELECT DeviceId FROM SmartIms.DeviceDataJur AS ddj2 GROUP BY DeviceId HAVING COUNT(DeviceId)<=3)
-PRINT 'Тарифіковано без часових зон'
+PRINT 'Г’Г Г°ГЁГґВіГЄГ®ГўГ Г­Г® ГЎГҐГ§ Г·Г Г±Г®ГўГЁГµ Г§Г®Г­'
 
 
 
@@ -163,25 +154,25 @@ JOIN SmartIms.DeviceScaleJur dsj ON DDJ2.LogicalName=dsj.DeviceScale
 WHERE DirectionType NOT IN (2,3)
  GROUP BY DeviceId HAVING COUNT(DeviceId)>=3)
 
-		PRINT 'Тарифіковано атив 2 зони'
+		PRINT 'Г’Г Г°ГЁГґВіГЄГ®ГўГ Г­Г® Г ГІГЁГў 2 Г§Г®Г­ГЁ'
 
 
 UPDATE ddj  set ddj.tariffid=7 
 FROM SmartIms.DeviceDataJur AS DDJ
 WHERE DeviceId IN (SELECT DeviceId FROM SmartIms.DeviceDataJur AS ddj2 GROUP BY DeviceId HAVING COUNT(DeviceId)=4)
 
-PRINT 'Тарифіковано Актив 2 зони реатив та генерація без зон'
+PRINT 'Г’Г Г°ГЁГґВіГЄГ®ГўГ Г­Г® ГЂГЄГІГЁГў 2 Г§Г®Г­ГЁ Г°ГҐГ ГІГЁГў ГІГ  ГЈГҐГ­ГҐГ°Г Г¶ВіГї ГЎГҐГ§ Г§Г®Г­'
 
 UPDATE ddj  set ddj.tariffid=2 
 FROM SmartIms.DeviceDataJur AS DDJ
 WHERE DeviceId IN (SELECT DeviceId FROM SmartIms.DeviceDataJur AS ddj2 GROUP BY DeviceId HAVING COUNT(DeviceId)=5)
-PRINT 'Тарифіковано Актив 3 зони'
--- видалення невірно запрограмованих лічильник (дані по шкалах в Бд Еквіпмента не співпадають з даними по СМАРТУ)
+PRINT 'Г’Г Г°ГЁГґВіГЄГ®ГўГ Г­Г® ГЂГЄГІГЁГў 3 Г§Г®Г­ГЁ'
+-- ГўГЁГ¤Г Г«ГҐГ­Г­Гї Г­ГҐГўВіГ°Г­Г® Г§Г ГЇГ°Г®ГЈГ°Г Г¬Г®ГўГ Г­ГЁГµ Г«ВіГ·ГЁГ«ГјГ­ГЁГЄ (Г¤Г Г­Ві ГЇГ® ГёГЄГ Г«Г Гµ Гў ГЃГ¤ Г…ГЄГўВіГЇГ¬ГҐГ­ГІГ  Г­ГҐ Г±ГЇВіГўГЇГ Г¤Г ГѕГІГј Г§ Г¤Г Г­ГЁГ¬ГЁ ГЇГ® Г‘ГЊГЂГђГ’Г“)
 DELETE FROM SmartIms.DeviceDataJur WHERE DeviceId IN 
 									(SELECT DeviceId 
 									FROM SmartIms.DeviceDataJur AS DDJ 
 									WHERE TariffId=7 AND LogicalName=0x0100640800FF)
-PRINT 'Видалено неспіпадіння по шкалах'
+PRINT 'Г‚ГЁГ¤Г Г«ГҐГ­Г® Г­ГҐГ±ГЇВіГЇГ Г¤ВіГ­Г­Гї ГЇГ® ГёГЄГ Г«Г Гµ'
 
 
 
@@ -221,7 +212,7 @@ CREATE NONCLUSTERED INDEX [Index1] ON [#FilialDeviceJur]
 
 
 DELETE FROM FilialDeviceJur
--- імпорт даних про лічильники смарт на основі класифікатора з філій
+-- ВіГ¬ГЇГ®Г°ГІ Г¤Г Г­ГЁГµ ГЇГ°Г® Г«ВіГ·ГЁГ«ГјГ­ГЁГЄГЁ Г±Г¬Г Г°ГІ Г­Г  Г®Г±Г­Г®ГўВі ГЄГ«Г Г±ГЁГґВіГЄГ ГІГ®Г°Г  Г§ ГґВіГ«ВіГ©
 DECLARE @Query NVARCHAR(MAX), @ArrayFilialId NVARCHAR(max), @FilialId VARCHAR(3)
 --SET @ArrayFilialId = '190,210,220,230,240,250,260,280,290,300,320,350'
 declare SmartCounterFromFilial cursor scroll for 
@@ -241,54 +232,6 @@ declare @s INT
 
 SELECT @s = Q FROM OPENQUERY([PR' + @FilialId + '],''select [PR' + @FilialId + '_Equipment].[SupportDefined].[FN_getOrganizationUnitId]() as Q'')
 
-INSERT INTO [#FilialDeviceJur]
-        ( [FilialId]
-        ,[CoreEquipmentGuid]
-        ,[CounterNumber]
-        ,[CounterTypeId]
-        ,[EquipmentTypeName]
-        ,[ContractNumber]
-        ,[DateFrom]
-        ,[CounterMeasuringid]
-        ,[DirectionType]
-        ,[Number]
-
-       
-        )
-SELECT @s as FilialId,
-		[ce].[guid] AS CoreEquipmentGuid, 
-		[ch].CounterNumber, 
-		[ch].[CounterTypeId], 
-		[CE].[EquipmentTypeName],
-		[ppl].[Contractnumber], 
-		[BC].[DateFrom],
-		[cm].CounterMeasuringid,
-		[cm].[DirectionType],
-		[S].[Number]
-		 
-  FROM   
-		PR' + @FilialId + '.PR' + @FilialId + '_Equipment.PlacementLocation.EsjPoint AS ppl
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.[EquipmentMain].[BelongCurrent] AS BC ON [ppl].[PlacementLocationId] = [BC].[PlacementLocationId]
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.EquipmentMain.PlacementLocation AS PL ON BC.PlacementLocationId = PL.PlacementLocationId 
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.Organization.OrganizationUnit AS OU ON PL.OrganizationUnitId = OU.OrganizationUnitId AND ContractorId IS NOT NULL
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.[EquipmentMain].[CoreEquipment] AS CE ON [BC].[CoreEquipmentId] = [CE].[CoreEquipmentId] AND [EquipmentKindId] = 1
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.[Counter].[Counter] AS C ON [BC].[CoreEquipmentId] = [C].[CoreEquipmentId]
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.[Counter].[CounterHistory] AS CH ON [C].[CounterId] = [CH].[CounterId] AND [CH].[DateTo] = ''20790606''
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.Counter.CounterMeasuring AS CM ON CH.CounterHistoryId = CM.CounterHistoryId
-		--JOIN Counter.GroupIndex AS GI ON CM.CounterMeasuringId = GI.CounterMeasuringId
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.Counter.Scale AS S ON CM.CounterMeasuringId = S.CounterMeasuringId
-		JOIN PR' + @FilialId + '.PR' + @FilialId + '_Equipment.EquipmentDictionary.CounterType AS CT ON CT.CounterTypeId = CH.CounterTypeId
-
-WHERE NOT EXISTS (SELECT * FROM [SmartIms].[FilialDeviceJur] AS FD WHERE [CoreEquipmentGuid] = CE.Guid)
-			and ct.Code in (10233,
-							   10234,10235,10236,
-							   10237,10238,10239,
-							   10240,10241 )
-		   and ch.CounterNumber NOT LIKE ''%ф%'' 
-		   and CounterNumber NOT LIKE ''%тран%''
-		   and ppl.dateto=''20790606''
-		   and   CH.ReactiveScaleCount<>2
-		   and pl.PlacementLocationTypeId=5
 '
 
 BEGIN TRY
@@ -335,20 +278,8 @@ INSERT INTO [SmartIms].[FilialDeviceJur]
         FROM #FilialDeviceJur FD2
 WHERE NOT EXISTS (SELECT * FROM [SmartIms].[FilialDeviceJur] AS FD WHERE [FD].[CoreEquipmentGuid] = [FD2].[CoreEquipmentGuid] AND [FD].[IsDeleted] = 0)
 
-PRINT 'Лічильників імпортовано'
---INSERT INTO [SmartIms].[DeviceLinkJur]
---        ( [DeviceId]
---        ,[CoreEquipmentGuid])
---SELECT D.[Id], [FD].[CoreEquipmentGuid] 
---FROM    [SmartIms].[DeviceJur] AS D 
---JOIN [SmartIms].[DeviceLocation] AS DL ON [D].[Id] = [DL].[DeviceId]
---JOIN [SmartIms].[FilialGroup] AS FG ON [FG].[FilialGroupId] = [DL].[GroupId]
---        JOIN [SmartIms].[FilialDeviceJur] AS FD ON [D].[SN] = CONVERT(NUMERIC, [FD].counternumber)
---AND [FG].[OrganizationUnitId] = FD.FilialId AND IsDeleted=0
---WHERE NOT EXISTS (
---SELECT CONVERT(NUMERIC, [FD2].counternumber) FROM [SmartIms].[FilialDeviceJur] AS FD2 WHERE [IsDeleted] = 0 GROUP BY CONVERT(NUMERIC, [FD2].counternumber) HAVING COUNT(*)>1 AND CONVERT(NUMERIC, [FD].counternumber) = CONVERT(NUMERIC, [FD2].counternumber))
---AND NOT EXISTS (SELECT * FROM [SmartIms].[DeviceLinkJur] AS DL2 WHERE [FD].[CoreEquipmentGuid] = [DL2].[CoreEquipmentGuid] AND [FD].[IsDeleted] = 0)
---AND NOT EXISTS (SELECT * FROM [SmartIms].[DeviceLinkJur] AS DL2 WHERE [DL2].[DeviceId] = [D].[Id])
+PRINT 'Г‹ВіГ·ГЁГ«ГјГ­ГЁГЄВіГў ВіГ¬ГЇГ®Г°ГІГ®ГўГ Г­Г®'
+
 END
 
 
