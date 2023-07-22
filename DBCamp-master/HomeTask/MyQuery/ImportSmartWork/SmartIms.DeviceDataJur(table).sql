@@ -1,7 +1,6 @@
 
 GO
 
-/****** Object:  Table [SmartIms].[DeviceDataJur]    Script Date: 09/03/2015 16:58:42 ******/
 SET ANSI_NULLS ON
 GO
 
