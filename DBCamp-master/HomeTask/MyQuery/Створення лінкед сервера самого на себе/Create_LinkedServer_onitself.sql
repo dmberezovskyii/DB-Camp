@@ -12,7 +12,6 @@ SELECT @servername
 
 USE [master]
 
-/****** Object:  LinkedServer [EquipmentServer]    Script Date: 03/02/2012 11:10:50 ******/
 IF  EXISTS (SELECT srv.name FROM sys.servers srv WHERE srv.server_id != 0 AND srv.name = @LinkedServername)
 EXEC master.dbo.sp_dropserver @server=@LinkedServername, @droplogins='droplogins'
 
