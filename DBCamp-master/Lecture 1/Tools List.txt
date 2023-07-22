@@ -1,0 +1,26 @@
+Visual Studio 2017 Community Edition https://visualstudio.microsoft.com/
+SQL Server Data Tools https://docs.microsoft.com/en-us/sql/ssdt/download-sql-server-data-tools-ssdt?view=sql-server-2017
+SQL Server Management Studio https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017
+Azure Data Studio https://docs.microsoft.com/en-us/sql/azure-data-studio/what-is?view=sql-server-2017
+Azure Data Studio extensions:
+  Azure SQL Data Warehouse Insights
+  SQL Server Agent
+  SQL Server Import
+  SQL Server Profiler
+  Server Reports
+  whoisactive
+Visual Studio Code https://code.visualstudio.com/
+Visual Studio Code extensions:
+  SQL Server (mssql) https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql
+  C# https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp
+  Ionide-FSharp https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-fsharp
+  Ionide-Paket https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-Paket
+  Ionide-FAKE https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-FAKE
+  Python https://marketplace.visualstudio.com/items?itemName=ms-python.python
+  Scala https://marketplace.visualstudio.com/items?itemName=dragos.scala-lsp
+MS SQL Server 2017 Developer Edition https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+MS SQL Server Samples https://github.com/Microsoft/sql-server-samples
+
+Git for Windows https://git-scm.com/
+TortoiseGit (Simple Git UI for Windows) https://tortoisegit.org/
+About Git in Ukrainian https://git-scm.com/book/uk/v2

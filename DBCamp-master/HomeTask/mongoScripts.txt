@@ -1,0 +1,10 @@
+ use test
+show collections
+db.ds1.find
+db.ds1.find.pretty()
+db.ds1.find.count({"Office Info": [
+                                        {
+                                            "Office Address Id": 893,
+                                            "OfficeCustomerId": 29501
+                                        }
+                                    ]})

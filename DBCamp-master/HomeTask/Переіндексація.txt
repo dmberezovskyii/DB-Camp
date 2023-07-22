@@ -1,0 +1,25 @@
+EXEC sp_updatestats
+---
+declare REINDEX_CUR cursor
+FOR
+select [name], schema_name([schema_id])
+from sys.objects where [type] = 'u' and type_desc = 'USER_TABLE' AND OBJECTPROPERTY([object_id], N'IsUserTable') = 1
+ 
+ 
+ 
+--SET @sql = @sql +
+ 
+declare @TableName varchar(300), @schemaName varchar(300), @objectName varchar(600)
+ 
+open  REINDEX_CUR
+FETCH NEXT FROM REINDEX_CUR into @TableName, @schemaName
+WHILE @@FETCH_STATUS = 0
+BEGIN
+   set @objectName = Rtrim(@schemaName) + '.' + Rtrim(@TableName)
+   print @objectName
+   DBCC DBREINDEX (@objectName)
+   FETCH NEXT FROM REINDEX_CUR into @TableName, @schemaName
+END
+ 
+CLOSE REINDEX_CUR
+DEALLOCATE REINDEX_CUR

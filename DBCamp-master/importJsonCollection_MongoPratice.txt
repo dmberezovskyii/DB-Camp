@@ -1,0 +1,1 @@
+mongoimport --jsonArray --db test --collection ds1 --file c:\data\DS1.JSON
