@@ -1,4 +1,4 @@
-USE [PRDIR_Equipment]
+
 GO
 
 /****** Object:  Table [SmartIms].[DeviceDataJur]    Script Date: 09/03/2015 16:58:42 ******/
