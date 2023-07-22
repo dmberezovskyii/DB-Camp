@@ -13,7 +13,7 @@ GO
 
 
 
-CREATE VIEW [SmartIms].[v_CounterDataJur]
+CREATE VIEW [SmartIms].[v_CData]
 AS
 SELECT 
 
