@@ -1,7 +1,4 @@
-USE [PRDIR_Equipment]
-GO
 
-/****** Object:  Table [SmartIms].[ReportDay]    Script Date: 09/03/2015 16:57:23 ******/
 SET ANSI_NULLS ON
 GO
 
