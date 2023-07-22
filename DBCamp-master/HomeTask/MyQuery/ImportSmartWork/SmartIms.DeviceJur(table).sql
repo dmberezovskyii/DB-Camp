@@ -1,7 +1,6 @@
-USE [PRDIR_Equipment]
+USE [DB]
 GO
 
-/****** Object:  Table [SmartIms].[DeviceJur]    Script Date: 09/03/2015 16:58:14 ******/
 SET ANSI_NULLS ON
 GO
 
