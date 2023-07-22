@@ -21,7 +21,7 @@ INSERT INTO [#FDJur]
 
        
         )
-SELECT @s as FilialId,
+SELECT @s as FId,
 		[ce].[guid] AS CEGUID, 
 		[ch].CN, 
 		[ch].[TypeId], 
